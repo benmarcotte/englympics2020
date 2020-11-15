@@ -28,6 +28,7 @@ public class ReceiptReader {
             //Run main json parsing method.
             String filePath = args[0];
             File jsonFolder = new File(filePath);
+            System.out.println(jsonFolder.getAbsolutePath());
             if (!jsonFolder.exists()) {
                 System.out.println("ERROR: Input folder not found. Please verify that input folder is in top level project folder next to /src");
                 System.exit(1);
@@ -36,8 +37,10 @@ public class ReceiptReader {
             if (dirList != null) {
                 for (File child : dirList) {
                     //TODO: parse json using child (.json files)
+                    System.out.println(child.getName());
                 }
             }
         }
     }
+
 }
