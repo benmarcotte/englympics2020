@@ -16,8 +16,8 @@ public class AVLTree implements java.io.Serializable {
         public String sic4;
         public String sic8;
         public String fileOrigin;
-        public long phone;
-        //public Node parent;
+        public String phone;
+        public int line;
         public Node left;
         public Node right;
         public int height;
@@ -25,13 +25,13 @@ public class AVLTree implements java.io.Serializable {
         
 
 
-        public Node(String fileOrigin, String name, String sic4, String sic8, long phone){
+        public Node(String fileOrigin, String name, String sic4, String sic8, String phone, int line){
             this.name = name;
             this.sic4 = sic4;
             this.sic8 = sic8;
             this.fileOrigin = fileOrigin;
-            
             this.phone = phone;
+            this.line = line;
             //this.parent = parent;
             this.left = null;
             this.right = null;
@@ -52,19 +52,23 @@ public class AVLTree implements java.io.Serializable {
         for(int i = 0; i < files.length; i++){
             scan = new Scanner(new FileInputStream(files[i]));
             scan.nextLine();
+            int nline = 3;
             if(i == 0){
                 line = scan.nextLine();
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
-                head = new Node(files[i], args[0], args[1], args[2], Long.parseLong(args[3]));
+                head = new Node(files[i], args[0], args[1], args[2], args[3], 2);
                 nodes.add(head);
+                System.out.println("processed node");
             }
             while(scan.hasNextLine()){
                 line = scan.nextLine();
-                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                insert(new Node(files[i], args[0], args[1], args[2], Long.parseLong(args[3])), head, null);
+                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), head, null);
                 nodes.add(head);
+                nline++;
+                System.out.println("processed node " + i + " " + nline);
             }
         }
         outputStream.writeObject(this);
@@ -211,17 +215,19 @@ public class AVLTree implements java.io.Serializable {
         return null;
     }
 
-    public Node searchNumber(Long n){
+    public Node searchNumber(String n){
         Node current = head;
 
+        int compare;
         while(current != null){
-            if(n == current.phone){
+            compare = current.phone.compareTo(n);
+            if(compare == 0){
                 return current;
             }
-            else if (current.phone < n){
+            else if (compare < 0){
                 current = current.left;
             }
-            else if (current.phone > n){
+            else if (compare > 0){
                 current = current.right;
             }
         }
