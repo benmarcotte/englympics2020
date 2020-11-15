@@ -10,7 +10,7 @@ public class ReceiptReader {
     /**
      * The AVLTree object containing the sorted data from the csv files.
      */
-    private static AVLTree avlTree;
+    private static CSVSearch csvSearch;
 
     /**
      * The main driver method of the program.
@@ -107,7 +107,7 @@ public class ReceiptReader {
             System.out.println("ERROR: AVL Tree has not yet been initialized.");
             System.exit(1);
         }
-        */  
+        */
         //Get folder from input
         System.out.println("parsing json");
         filePath = args[0];
@@ -122,8 +122,12 @@ public class ReceiptReader {
         //Create an array of JSON files within the folder and loop through them, parsing each JSON file.
         File[] dirList = jsonFolder.listFiles();
         if (dirList != null) {
+            String[] filePaths = new String[dirList.length];
+            for (int i = 0; i<filePaths.length; i++)
+                filePaths[i] = dirList[i].getAbsolutePath();
+            csvSearch = new CSVSearch(filePaths);
             for (File child : dirList) {
-                JsonImport.process(child, avlTree);
+                JsonImport.process(child, csvSearch);
                 System.out.println("----------------");
             }
         }
