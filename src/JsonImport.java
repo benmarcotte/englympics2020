@@ -39,8 +39,10 @@ public class JsonImport {
         ArrayList<String> building = new ArrayList<String>();
         int counter = 0;
         for (String value:description) {
+            if (value.matches(".*\\w.*")){
                 building.add(value);
                 counter++;
+            }
             if (counter > 3)
                 break;
         }
