@@ -113,19 +113,25 @@ public class ReceiptReader {
         filePath = args[0];
         File jsonFolder = new File(filePath);
 
+
         //If folder was not found, display an error and terminate the program.
         if (!jsonFolder.exists()) {
             System.out.println("ERROR: Input folder not found. Please verify that input folder is in top level project folder next to /src");
             System.exit(1);
         }
 
+        //Get csv files from folder
+        File csvFolder = new File("supplierList");
+        File[] csvDirList = csvFolder.listFiles();
+        String[] filePaths = new String[csvDirList.length];
+        for (int i = 0; i<filePaths.length; i++)
+            filePaths[i] = csvDirList[i].getAbsolutePath();
+        csvSearch = new CSVSearch(filePaths);
+
         //Create an array of JSON files within the folder and loop through them, parsing each JSON file.
         File[] dirList = jsonFolder.listFiles();
         if (dirList != null) {
-            String[] filePaths = new String[dirList.length];
-            for (int i = 0; i<filePaths.length; i++)
-                filePaths[i] = dirList[i].getAbsolutePath();
-            csvSearch = new CSVSearch(filePaths);
+
             for (File child : dirList) {
                 try {
                     JsonImport.process(child, csvSearch);
