@@ -12,7 +12,7 @@ public class CSVSearch {
         this.files = files;
     }
 
-    public String searchName(String name) throws FileNotFoundException {
+    public String[] searchName(String name) throws FileNotFoundException {
         name = name.replaceAll("[^a-zA-Z0-9]", "");
         name = name.toLowerCase();
         for(int i = 0; i < files.length; i++){
@@ -23,13 +23,13 @@ public class CSVSearch {
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
                 if(name.equals(args[0]));
-                return line;
+                return args;
             }
         }
         return null;
     }
 
-    public String searchNumber(String n) throws FileNotFoundException {
+    public String[] searchNumber(String n) throws FileNotFoundException {
         n = n.replaceAll("[^a-zA-Z0-9]", "");
         for(int i = 0; i < files.length; i++){
             scan = new Scanner(new FileInputStream(files[i]));
@@ -38,7 +38,7 @@ public class CSVSearch {
                 args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 if(n.equals(args[3]));
-                return line;
+                return args;
             }
         }
         return null;
