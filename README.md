@@ -2,7 +2,7 @@
 
 ## Project Stack
 - Language: Java.
-- Development Environtment: [IntelliJ IDEA 2020](https://www.jetbrains.com/idea/download/#section=windows).
+- Development Environment: [IntelliJ IDEA 2020](https://www.jetbrains.com/idea/download/#section=windows).
 
 ## Dependencies
 - [JDK 15.0.1](https://www.oracle.com/java/technologies/javase-jdk15-downloads.html).
