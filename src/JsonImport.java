@@ -22,7 +22,7 @@ public class JsonImport {
         boolean result = false;
         for (Long phone : phones) {
             String search = phone.toString();
-            System.out.println(search);
+//            System.out.println(search);
             found = csv.searchName(search);
             if (found != null)
                 break;
@@ -45,7 +45,7 @@ public class JsonImport {
             for (int start = 0; start < spaces.size(); start++) {
                 for (int end = start+1; end < spaces.size(); end++){
                     String search = line.substring(spaces.get(start),spaces.get(end)+1);
-                    System.out.println(search);
+//                    System.out.println(search);
                     found = csv.searchName(search);
                 }
                 if (found != null)
