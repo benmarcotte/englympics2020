@@ -19,6 +19,11 @@ public class JsonImport {
         System.out.println(test3);
     }
 
+    /**
+     * Returns the first 3 possible phone numbers as Long values.
+     * @param description
+     * @return
+     */
     private static ArrayList<Long> numbersToBeTest(String[] description) {
         ArrayList<Long> building = new ArrayList<Long>();
         int counter = 0;
