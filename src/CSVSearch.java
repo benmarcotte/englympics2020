@@ -19,7 +19,7 @@ public class CSVSearch {
             scan = new Scanner(new FileInputStream(files[i]));
             scan.nextLine();
             while(scan.hasNextLine()){
-                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
                 if(name.equals(args[0]));
@@ -35,7 +35,7 @@ public class CSVSearch {
             scan = new Scanner(new FileInputStream(files[i]));
             scan.nextLine();
             while(scan.hasNextLine()){
-                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 if(n.equals(args[3]));
                 return line;

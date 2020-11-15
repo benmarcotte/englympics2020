@@ -30,7 +30,8 @@ public class ReceiptReader {
         * If main is called with arguments initialize as well as a file path, initialize the AVL tree.
         * */
         else if (args[0].equals("initialize") && args.length == 2) {
-            InitializeAVL(args);
+            //InitializeAVL(args);
+            System.out.println("ERROR: AVL Tree Cannot be initialized.");
             System.exit(0);
         }
 
@@ -101,12 +102,12 @@ public class ReceiptReader {
     private static void ParseReceipts (String[] args) {
 
         //Gets the avl tree file to be deserialized and checks if null
-        avlTree = DeserializeAVLTree();
-        if (avlTree == null) {
+        //avlTree = DeserializeAVLTree();
+        /*if (avlTree == null) {
             System.out.println("ERROR: AVL Tree has not yet been initialized.");
             System.exit(1);
         }
-
+        */  
         //Get folder from input
         System.out.println("parsing json");
         filePath = args[0];
