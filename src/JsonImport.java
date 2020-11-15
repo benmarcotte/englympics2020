@@ -10,17 +10,47 @@ import java.util.ArrayList;
 
 public class JsonImport {
     public static void main(String[] args) {
-        var temp = getJSONObject("/Users/evan/Downloads/CompetitionPackage/Training Json/j1.json");
+
+
+        var temp = getJSONObject("/Users/evan/Downloads/CompetitionPackage/Training Json/j10.json");
         var test = getDescription(temp);
         String[] description = splitDescription(test);
-        var test2 = namesToBeTested(description);
-        var test3 = numbersToBeTest(description);
-        System.out.println(test2);
-        System.out.println(test3);
+
+        //test numbers after
+        var phones = numbersToBeTest(description);
+        boolean result = false;
+        for (Long phone : phones) {
+            System.out.println(phone);
+            result = searchTree(phone.toString());
+            if (result)
+                break;
+        }
+        //test names first
+        var names = namesToBeTested(description);
+        for (String line : names) {
+            String[] words = line.split(" ");
+            int index = line.indexOf(" ");
+            ArrayList<Integer> spaces = new ArrayList<Integer>();
+            spaces.add(0);
+            while (index >= 0) {
+                spaces.add(index);
+                index = line.indexOf(" ", index + 1);
+            }
+            spaces.add(line.length() - 1);
+            for (int start = 0; start < spaces.size(); start++) {
+                for (int end = start+1; end < spaces.size(); end++){
+                    System.out.println(line.substring(spaces.get(start),spaces.get(end)+1));
+                }
+
+            }
+            if (result)
+                break;
+        }
     }
 
     /**
      * Returns the first 3 possible phone numbers as Long values.
+     *
      * @param description
      * @return
      */
@@ -28,10 +58,12 @@ public class JsonImport {
         ArrayList<Long> building = new ArrayList<Long>();
         int counter = 0;
         for (String value : description) {
-            if (value.replaceAll("\\D", "").length() >= 8) {
+            if (value.replaceAll("\\D", "").length() >= 10) {
                 String temp = value.replaceAll("[^0-9]", "");
-                building.add(Long.parseLong(temp));
-                counter++;
+                if (temp.length() < 16) {
+                    building.add(Long.parseLong(temp));
+                    counter++;
+                }
             }
             if (counter > 2)
                 break;
@@ -48,8 +80,8 @@ public class JsonImport {
     private static ArrayList<String> namesToBeTested(String[] description) {
         ArrayList<String> building = new ArrayList<String>();
         int counter = 0;
-        for (String value:description) {
-            if (value.matches(".*[a-zA-Z].*")){
+        for (String value : description) {
+            if (value.matches(".*[a-zA-Z].*")) {
                 building.add(value);
                 counter++;
             }
@@ -61,6 +93,7 @@ public class JsonImport {
 
     /**
      * Convert JSON data into a JSONObject
+     *
      * @param path Path to JSON data
      * @return JSONObject of data
      */
@@ -102,5 +135,9 @@ public class JsonImport {
      */
     private static String[] splitDescription(String description) {
         return description.split("\\r?\\n");
+    }
+
+    private static boolean searchTree(String value) {
+        return false;
     }
 }
