@@ -31,6 +31,7 @@ public class ReceiptReader {
         * */
         else if (args[0].equals("initialize") && args.length == 2) {
             InitializeAVL(args);
+            System.exit(0);
         }
 
         /*
@@ -80,8 +81,16 @@ public class ReceiptReader {
 
         //Create an array of files within the folder and pass the to the AVL tree initializer method
         File[] dirList = csvDir.listFiles();
+
         if (dirList != null) {
-            //TODO Initialize AVL tree from csv file array
+            String[] filePaths = new String[dirList.length];
+            for (int i = 0; i<filePaths.length; i++)
+                filePaths[i] = dirList[i].getAbsolutePath();
+            try {
+                avlTree = new AVLTree(filePaths);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,6 +99,7 @@ public class ReceiptReader {
      * @param args the arguments passed to main() by the user.
      */
     private static void ParseReceipts (String[] args) {
+
         //Gets the avl tree file to be deserialized and checks if null
         avlTree = DeserializeAVLTree();
         if (avlTree == null) {
