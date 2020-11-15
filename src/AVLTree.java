@@ -54,7 +54,7 @@ public class AVLTree implements java.io.Serializable {
             scan.nextLine();
             if(i == 0){
                 line = scan.nextLine();
-                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
                 head = new Node(files[i], args[0], args[1], args[2], Long.parseLong(args[3]));
@@ -62,7 +62,7 @@ public class AVLTree implements java.io.Serializable {
             }
             while(scan.hasNextLine()){
                 line = scan.nextLine();
-                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 insert(new Node(files[i], args[0], args[1], args[2], Long.parseLong(args[3])), head, null);
                 nodes.add(head);
             }
