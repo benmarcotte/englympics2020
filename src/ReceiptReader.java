@@ -122,7 +122,8 @@ public class ReceiptReader {
         File[] dirList = jsonFolder.listFiles();
         if (dirList != null) {
             for (File child : dirList) {
-                //TODO: parse json using child (.json files)
+                JsonImport.process(child, avlTree);
+                System.out.println("----------------");
             }
         }
     }
