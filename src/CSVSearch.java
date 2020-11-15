@@ -41,8 +41,8 @@ public class CSVSearch {
             scan.nextLine();
             while(scan.hasNextLine()){
                 args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
-                if(name.equals(args[0])){
+                args[3] = args[3].replaceAll("[^a-zA-Z0-9]", "");
+                if(n.equals(args[3])){
                     String[] ans = {args[0], args[1], args[2], args[3], files[i], ""+(nline + 1)};
                     return ans;
                 }
