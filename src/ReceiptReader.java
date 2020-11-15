@@ -2,6 +2,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class ReceiptReader {
+
+    /**
+     * The folder directory passed as an argument
+     */
+    private static String filePath;
+
     public static void main(String[] args) {
         /*
         * If main is called without arguments, display an error and terminate the program.
@@ -16,7 +22,7 @@ public class ReceiptReader {
         else if (args[0].equals("initialize") && args.length == 2) {
 
             //Get folder from input
-            String filePath = args[1];
+            filePath = args[1];
             System.out.println("Initializing Tree with csv folder: " + filePath);
             File csvDir = new File(filePath);
 
@@ -40,7 +46,7 @@ public class ReceiptReader {
 
             //Get folder from input
             System.out.println("parsing json");
-            String filePath = args[0];
+            filePath = args[0];
             File jsonFolder = new File(filePath);
 
             //If folder was not found, display an error and terminate the program.
