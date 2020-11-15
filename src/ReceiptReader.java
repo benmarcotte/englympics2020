@@ -17,9 +17,7 @@ public class ReceiptReader {
             }
             File[] dirList = csvDir.listFiles();
             if (dirList != null) {
-                for (File child : dirList) {
-                    //TODO: update tree using child (.csv file)
-                }
+                //TODO Initialize AVL tree from csv file array
             }
 
         }
