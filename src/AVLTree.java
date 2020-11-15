@@ -64,7 +64,7 @@ public class AVLTree implements java.io.Serializable {
             }
             while(scan.hasNextLine()){
                 line = scan.nextLine();
-                args = line.split(",\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), head, null);
                 nodes.add(head);
                 nline++;
