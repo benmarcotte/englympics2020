@@ -9,6 +9,7 @@ public class ReceiptReader {
         }
         else {
             //Run main json parsing method.
+            String filePath = args[0];
         }
     }
 }
