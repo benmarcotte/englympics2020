@@ -180,6 +180,7 @@ public class AVLTree implements java.io.Serializable {
         return nright;
     }
 
+
     public Node rightRotation(Node n, Node prev){
         Node nleft = n.left;
         n.left = nleft.right;
