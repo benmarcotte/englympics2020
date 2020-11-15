@@ -55,6 +55,14 @@ public class JsonImport {
             if (found != null)
                 break;
         }
+
+        if (found != null){
+            System.out.println("Company found: "+found.name);
+            System.out.println("Found in: "+found.fileOrigin+" at line "+found.line);
+            System.out.println("Categories: '"+found.sic4+"' and '"+found.sic8+"'");
+        }else{
+            System.out.println("No results for: "+jsonFile.getPath());
+        }
     }
 
     /**
