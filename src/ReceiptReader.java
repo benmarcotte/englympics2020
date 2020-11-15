@@ -88,7 +88,7 @@ public class ReceiptReader {
             for (int i = 0; i<filePaths.length; i++)
                 filePaths[i] = dirList[i].getAbsolutePath();
             try {
-                avlTree = new AVLTree(filePaths);
+                //avlTree = new AVLTree(filePaths);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -127,7 +127,11 @@ public class ReceiptReader {
                 filePaths[i] = dirList[i].getAbsolutePath();
             csvSearch = new CSVSearch(filePaths);
             for (File child : dirList) {
-                JsonImport.process(child, csvSearch);
+                try {
+                    JsonImport.process(child, csvSearch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 System.out.println("----------------");
             }
         }
