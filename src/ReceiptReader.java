@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 
 public class ReceiptReader {
 
@@ -8,7 +7,17 @@ public class ReceiptReader {
      */
     private static String filePath;
 
+    /**
+     * The AVLTree object containing the sorted data from the csv files.
+     */
+    private static AVLTree avlTree;
+
+    /**
+     * The main driver method of the program.
+     * @param args the execution arguments passed by the user.
+     */
     public static void main(String[] args) {
+
         /*
         * If main is called without arguments, display an error and terminate the program.
         * */
@@ -16,6 +25,7 @@ public class ReceiptReader {
             System.out.println("ERROR: Please enter receipt folder directory as command argument.");
             System.exit(1);
         }
+
         /*
         * If main is called with arguments initialize as well as a file path, initialize the AVL tree.
         * */
@@ -39,10 +49,18 @@ public class ReceiptReader {
             }
 
         }
+
         /*
         * If main is called with one argument, take that argument to be the JSON receipts folder path and parse data.
         * */
         else {
+
+            //Gets the avl tree file to be deserialized and checks if null
+            avlTree = DeserializeAVLTree();
+            if (avlTree == null) {
+                System.out.println("ERROR: AVL Tree has not yet been initialized.");
+                System.exit(1);
+            }
 
             //Get folder from input
             System.out.println("parsing json");
@@ -62,6 +80,27 @@ public class ReceiptReader {
                     //TODO: parse json using child (.json files)
                 }
             }
+        }
+    }
+
+    /**
+     * Deserializes the AVLTree object from tree.ser file.
+     * @return AVLTree populated with data from csv files
+     */
+    private static AVLTree DeserializeAVLTree() {
+        try {
+            FileInputStream avlFileIn = new FileInputStream("tree.ser");
+            ObjectInputStream objectInputStream = new ObjectInputStream(avlFileIn);
+            AVLTree avl = (AVLTree) objectInputStream.readObject();
+            objectInputStream.close();
+            avlFileIn.close();
+            return avl;
+        } catch (IOException i) {
+            i.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+            return null;
         }
     }
 }
