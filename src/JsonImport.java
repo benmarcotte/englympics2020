@@ -2,6 +2,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,25 +10,29 @@ import java.util.ArrayList;
 
 
 public class JsonImport {
-    public static void main(String[] args) {
-
-
-        var temp = getJSONObject("/Users/evan/Downloads/CompetitionPackage/Training Json/j10.json");
+    public static void process(File jsonFile , AVLTree treeSearch) {
+        var temp = getJSONObject(jsonFile);
         var test = getDescription(temp);
         String[] description = splitDescription(test);
 
         //test numbers after
+        AVLTree.Node found = null;
+
         var phones = numbersToBeTest(description);
         boolean result = false;
         for (Long phone : phones) {
-            System.out.println(phone);
-            result = searchTree(phone.toString());
-            if (result)
+            String search = phone.toString();
+            System.out.println(search);
+            found = treeSearch.searchName(search);
+            if (found != null)
                 break;
         }
         //test names first
         var names = namesToBeTested(description);
         for (String line : names) {
+            if (found != null)
+                break;
+
             String[] words = line.split(" ");
             int index = line.indexOf(" ");
             ArrayList<Integer> spaces = new ArrayList<Integer>();
@@ -39,11 +44,15 @@ public class JsonImport {
             spaces.add(line.length() - 1);
             for (int start = 0; start < spaces.size(); start++) {
                 for (int end = start+1; end < spaces.size(); end++){
-                    System.out.println(line.substring(spaces.get(start),spaces.get(end)+1));
+                    String search = line.substring(spaces.get(start),spaces.get(end)+1);
+                    System.out.println(search);
+                    found = treeSearch.searchName(search);
                 }
+                if (found != null)
+                    break;
 
             }
-            if (result)
+            if (found != null)
                 break;
         }
     }
@@ -97,7 +106,7 @@ public class JsonImport {
      * @param path Path to JSON data
      * @return JSONObject of data
      */
-    private static JSONObject getJSONObject(String path) {
+    private static JSONObject getJSONObject(File path) {
         org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
         try {
             FileReader jsonFile = new FileReader(path);
@@ -140,4 +149,5 @@ public class JsonImport {
     private static boolean searchTree(String value) {
         return false;
     }
+
 }
