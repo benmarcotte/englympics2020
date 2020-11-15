@@ -133,6 +133,7 @@ public class ReceiptReader {
         if (dirList != null) {
 
             for (File child : dirList) {
+                System.out.println("Parsing: " + child.getName());
                 try {
                     JsonImport.process(child, csvSearch);
                 } catch (Exception e) {
