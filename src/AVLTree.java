@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AVLTree implements java.io.Serializable {
-    public Node head = null;
+    public Node NameHead = null;
+    public Node PhoneHead = null;
     public String[] files = {"supplierlist1.csv", "supplierlist2.csv"};
     public Scanner scan;
     public ObjectOutputStream outputStream;
@@ -58,61 +59,73 @@ public class AVLTree implements java.io.Serializable {
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
-                head = new Node(files[i], args[0], args[1], args[2], args[3], 2);
-                nodes.add(head);
+                NameHead = new Node(files[i], args[0], args[1], args[2], args[3], 2);
+                PhoneHead = new Node(files[i], args[0], args[1], args[2], args[3], 2);
+                nodes.add(NameHead);
                 System.out.println("processed node");
             }
             while(scan.hasNextLine()){
                 line = scan.nextLine();
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), head, null);
-                nodes.add(head);
+                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), NameHead, null);
+                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), PhoneHead, null);
+                nodes.add(NameHead);
                 nline++;
                 System.out.println("processed node " + i + " " + nline);
             }
         }
-        outputStream.writeObject(this);
+        //outputStream.writeObject(this);
     }
 
-    public Node insert(Node n, Node current, Node prev){
-
-        if(current == null){
-            return n;
-        }
-
-        int compare= n.name.compareTo(head.name);
-
-        while(true){    
-            compare = n.name.compareTo(head.name);
-            if(compare < 0){
-                if(current.left == null){
-                    current.left = n;
-                    return balance(current, prev);
-                }
-                else {
-                    prev = current;
-                    current = current.left;
-                }
+    public void insert(Node n, Node current, Node prev){
+        if(n.name.compareTo(current.name) < 0){
+            if(current.left == null){
+                //Node temp = new Node(key, car);
+                //n.prev = current;
+                current.left = n;
+                balance(current, prev);
             } else {
-                if(current.right == null){
-                    current.right = n;
-                    return balance(current, prev);
-                }
-                else {
-                    prev = current;
-                    current = current.right;
-                }
+                insert(n, current.left, current);
+            }
+        } else {
+            if(current.right == null){
+                //Node temp = new Node(key, car);
+                //n.prev = current;
+                current.right = n;
+                balance(current, prev);
+            } else{
+                insert(n, current.right, current);
             }
         }
+        //n++;
+    
 
-        // if(compare < 0){
-        //     current.left = insert(n, head.left, head);
-        // } else {
-        //     current.right = insert(n, head.right, head);
+        //int compare = n.name.compareTo(head.name);
+
+        // while(true){    
+        //     compare = n.name.compareTo(head.name);
+        //     if(compare < 0){
+        //         if(current.left == null){
+        //             current.left = n;
+        //             //balance(current, prev);
+        //             return;
+        //         }
+        //         else {
+        //             //prev = current;
+        //             current = current.left;
+        //         }
+        //     } else {
+        //         if(current.right == null){
+        //             current.right = n;
+        //             //balance(current, prev);
+        //             return;
+        //         }
+        //         else {
+        //             //prev = current;
+        //             current = current.right;
+        //         }
+        //     }
         // }
-
-
-        //return balance(current, prev);
     }
 
     public void update(Node n){
@@ -199,7 +212,7 @@ public class AVLTree implements java.io.Serializable {
     public Node searchName(String name){
         name = name.replaceAll("[^a-zA-Z0-9]", "");
         name = name.toLowerCase();
-        Node current = head;
+        Node current = NameHead;
         int compare;
         while(current != null){
             compare = current.name.compareTo(name);
@@ -217,7 +230,7 @@ public class AVLTree implements java.io.Serializable {
     }
 
     public Node searchNumber(String n){
-        Node current = head;
+        Node current = PhoneHead;
 
         int compare;
         while(current != null){
