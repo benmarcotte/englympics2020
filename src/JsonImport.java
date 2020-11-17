@@ -23,11 +23,12 @@ public class JsonImport {
         var phones = numbersToBeTest(description);
         boolean result = false;
         for (Long phone : phones) {
+            if (found != null)
+                break;
             String search = phone.toString();
 //            System.out.println(search);
             found = csv.searchNumber(search);
-            if (found != null)
-                break;
+
         }
         //test names first
         var names = namesToBeTested(description);
@@ -45,10 +46,18 @@ public class JsonImport {
             }
             spaces.add(line.length() - 1);
             for (int start = 0; start < spaces.size(); start++) {
-                for (int end = start+1; end < spaces.size(); end++){
+                for (int end = spaces.size()-1 ; end >= start+1 ; end--){
+
                     String search = line.substring(spaces.get(start),spaces.get(end)+1);
 //                    System.out.println(search);
-                    found = csv.searchName(search);
+                        if (found != null)
+                            break;
+                    if(search.replaceAll("[^a-zA-Z0-9]", "") != ""){
+                        found = csv.searchName(search);
+
+                    }
+
+
                 }
                 if (found != null)
                     break;
@@ -59,7 +68,7 @@ public class JsonImport {
         }
 
         if (found != null){
-            System.out.println("Company found: "+found.name);
+            System.out.println("Company found: "+found.trueName);
             System.out.println("Found in: "+found.fileOrigin);
             System.out.println("At line: "+found.line);
             System.out.println("Categories: '"+found.sic4 + "' and '"+found.sic8+"'");

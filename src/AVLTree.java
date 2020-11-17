@@ -24,10 +24,9 @@ public class AVLTree implements java.io.Serializable {
         public Node right;
         public int height;
         public int balance;
-        
 
 
-        public Node(String fileOrigin, String name, String sic4, String sic8, String phone, int line, String trueName){
+        public Node(String fileOrigin, String name, String sic4, String sic8, String phone, int line, String trueName) {
             this.name = name;
             this.trueName = trueName;
             this.sic4 = sic4;
@@ -43,20 +42,19 @@ public class AVLTree implements java.io.Serializable {
         }
 
 
-
     }
 
-    public AVLTree(String[] files) throws Exception{
+    public AVLTree(String[] files) throws Exception {
         this.files = files;
         outputStream = new ObjectOutputStream(new FileOutputStream("tree.ser"));
         nodes = new ArrayList<Node>();
         String line;
         String[] args;
-        for(int i = 0; i < files.length; i++){
+        for (int i = 0; i < files.length; i++) {
             scan = new Scanner(new FileInputStream(files[i]));
             scan.nextLine();
             int nline = 3;
-            if(i == 0){
+            if (i == 0) {
                 line = scan.nextLine();
                 String trueName = line.substring(0, line.indexOf(","));
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
@@ -67,7 +65,7 @@ public class AVLTree implements java.io.Serializable {
                 nodes.add(NameHead);
                 System.out.println("processed node");
             }
-            while(scan.hasNextLine()){
+            while (scan.hasNextLine()) {
                 line = scan.nextLine();
                 String trueName = line.substring(0, line.indexOf(","));
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
@@ -83,9 +81,9 @@ public class AVLTree implements java.io.Serializable {
         //outputStream.writeObject(this);
     }
 
-    public void insert(Node n, Node current, Node prev){
-        if(n.name.compareTo(current.name) < 0){
-            if(current.left == null){
+    public void insert(Node n, Node current, Node prev) {
+        if (n.name.compareTo(current.name) < 0) {
+            if (current.left == null) {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.left = n;
@@ -94,17 +92,17 @@ public class AVLTree implements java.io.Serializable {
                 insert(n, current.left, current);
             }
         } else {
-            if(current.right == null){
+            if (current.right == null) {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.right = n;
                 //balance(current, prev);
-            } else{
+            } else {
                 insert(n, current.right, current);
             }
         }
         //n++;
-    
+
 
         //int compare = n.name.compareTo(head.name);
 
@@ -133,10 +131,10 @@ public class AVLTree implements java.io.Serializable {
         //     }
         // }
     }
-    
-        public void insertPhone(Node n, Node current, Node prev){
-        if(n.phone.compareTo(current.phone) < 0){
-            if(current.left == null){
+
+    public void insertPhone(Node n, Node current, Node prev) {
+        if (n.phone.compareTo(current.phone) < 0) {
+            if (current.left == null) {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.left = n;
@@ -145,41 +143,41 @@ public class AVLTree implements java.io.Serializable {
                 insert(n, current.left, current);
             }
         } else {
-            if(current.right == null){
+            if (current.right == null) {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.right = n;
                 //balance(current, prev);
-            } else{
+            } else {
                 insert(n, current.right, current);
             }
         }
-
-    public void update(Node n){
-        int lh = -1;
-        int rh = -1;
-        if(n.left != null)
-            lh = n.left.height;
-        if(n.right != null)
-            rh = n.right.height;
-        
-        if(rh > lh)
-            n.height = 1 + rh;
-        else 
-            n.height = 1 + lh;
-
-        n.balance = rh-lh;
     }
 
-    public Node balance(Node n, Node prev){
-        if(n.balance == -2){
+    public void update(Node n) {
+        int lh = -1;
+        int rh = -1;
+        if (n.left != null)
+            lh = n.left.height;
+        if (n.right != null)
+            rh = n.right.height;
+
+        if (rh > lh)
+            n.height = 1 + rh;
+        else
+            n.height = 1 + lh;
+
+        n.balance = rh - lh;
+    }
+
+    public Node balance(Node n, Node prev) {
+        if (n.balance == -2) {
             if (n.left.balance <= 0)
-                return leftLeft(n, prev); 
+                return leftLeft(n, prev);
             else
                 return leftRight(n, prev);
-        }
-        else if (n.balance == +2) {
-            if(n.right.balance >= 0)
+        } else if (n.balance == +2) {
+            if (n.right.balance >= 0)
                 return rightRight(n, prev);
             else
                 return rightLeft(n, prev);
@@ -187,33 +185,33 @@ public class AVLTree implements java.io.Serializable {
         return n;
     }
 
-    public Node leftLeft(Node n, Node prev){
+    public Node leftLeft(Node n, Node prev) {
         return rightRotation(n, prev);
     }
 
-    public Node leftRight(Node n, Node prev){
+    public Node leftRight(Node n, Node prev) {
         n.left = leftRotation(n.left, prev);
         return rightRotation(n, prev);
     }
 
-    public Node rightRight(Node n, Node prev){
+    public Node rightRight(Node n, Node prev) {
         return leftRotation(n, prev);
     }
 
-    public Node rightLeft(Node n, Node prev){
+    public Node rightLeft(Node n, Node prev) {
         n.right = rightRotation(n.right, prev);
         return leftRotation(n, prev);
     }
 
-    public Node leftRotation(Node n, Node prev){
+    public Node leftRotation(Node n, Node prev) {
         Node nright = n.right;
         n.right = nright.left;
         nright.left = n;
-        if(prev != null){
-            if(n == prev.left)
-            prev.left = nright;
+        if (prev != null) {
+            if (n == prev.left)
+                prev.left = nright;
             else
-            prev.right = nright;
+                prev.right = nright;
         }
         update(n);
         update(nright);
@@ -221,54 +219,50 @@ public class AVLTree implements java.io.Serializable {
     }
 
 
-    public Node rightRotation(Node n, Node prev){
+    public Node rightRotation(Node n, Node prev) {
         Node nleft = n.left;
         n.left = nleft.right;
         nleft.right = n;
-        if(prev != null){
-            if(n == prev.left)
-            prev.left = nleft;
+        if (prev != null) {
+            if (n == prev.left)
+                prev.left = nleft;
             else
-            prev.right = nleft;
+                prev.right = nleft;
         }
         update(n);
         update(nleft);
         return nleft;
     }
 
-    public Node searchName(String name){
+    public Node searchName(String name) {
         name = name.replaceAll("[^a-zA-Z0-9]", "");
         name = name.toLowerCase();
         Node current = NameHead;
         int compare;
-        while(current != null){
+        while (current != null) {
             compare = name.compareTo(current.name);
-            if(compare == 0){
+            if (compare == 0) {
                 return current;
-            }
-            else if (compare < 0){
+            } else if (compare < 0) {
                 current = current.left;
-            }
-            else if (compare > 0){
+            } else if (compare > 0) {
                 current = current.right;
             }
         }
         return null;
     }
 
-    public Node searchNumber(String n){
+    public Node searchNumber(String n) {
         Node current = PhoneHead;
 
         int compare;
-        while(current != null){
+        while (current != null) {
             compare = n.compareTo(current.phone);
-            if(compare == 0){
+            if (compare == 0) {
                 return current;
-            }
-            else if (compare < 0){
+            } else if (compare < 0) {
                 current = current.left;
-            }
-            else if (compare > 0){
+            } else if (compare > 0) {
                 current = current.right;
             }
         }
