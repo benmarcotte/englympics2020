@@ -1,4 +1,6 @@
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ReceiptReader {
 
@@ -105,7 +107,9 @@ public class ReceiptReader {
      * @throws Exception
      */
     private static void ParseReceipts(String[] args) throws Exception {
-
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
+        System.out.println(formatter.format(date));
         //Gets the avl tree file to be deserialized and checks if null
         //avlTree = DeserializeAVLTree();
         /*if (avlTree == null) {
@@ -114,7 +118,6 @@ public class ReceiptReader {
         }
         */
         //Get folder from input
-        System.out.println("parsing json");
         filePath = args[0];
         File jsonFolder = new File(filePath);
 
@@ -136,7 +139,7 @@ public class ReceiptReader {
         //Create an array of JSON files within the folder and loop through them, parsing each JSON file.
         File[] dirList = jsonFolder.listFiles();
         if (dirList != null) {
-
+            System.out.println("parsing json");
             for (File child : dirList) {
                 System.out.println("Parsing: " + child.getName());
                 try {
@@ -147,5 +150,8 @@ public class ReceiptReader {
                 System.out.println("----------------");
             }
         }
+         formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+         date = new Date(System.currentTimeMillis());
+        System.out.println(formatter.format(date));
     }
 }

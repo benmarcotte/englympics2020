@@ -14,6 +14,7 @@ public class AVLTree implements java.io.Serializable {
 
     public class Node implements java.io.Serializable {
         public String name;
+        public String trueName;
         public String sic4;
         public String sic8;
         public String fileOrigin;
@@ -26,8 +27,9 @@ public class AVLTree implements java.io.Serializable {
         
 
 
-        public Node(String fileOrigin, String name, String sic4, String sic8, String phone, int line){
+        public Node(String fileOrigin, String name, String sic4, String sic8, String phone, int line, String trueName){
             this.name = name;
+            this.trueName = trueName;
             this.sic4 = sic4;
             this.sic8 = sic8;
             this.fileOrigin = fileOrigin;
@@ -56,22 +58,26 @@ public class AVLTree implements java.io.Serializable {
             int nline = 3;
             if(i == 0){
                 line = scan.nextLine();
+                String trueName = line.substring(0, line.indexOf(","));
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
-                NameHead = new Node(files[i], args[0], args[1], args[2], args[3], 2);
-                PhoneHead = new Node(files[i], args[0], args[1], args[2], args[3], 2);
+                NameHead = new Node(files[i], args[0], args[1], args[2], args[3], 2, trueName);
+                PhoneHead = new Node(files[i], args[0], args[1], args[2], args[3], 2, trueName);
                 nodes.add(NameHead);
                 System.out.println("processed node");
             }
             while(scan.hasNextLine()){
                 line = scan.nextLine();
+                String trueName = line.substring(0, line.indexOf(","));
                 args = line.split(",\\s*(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), NameHead, null);
-                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline), PhoneHead, null);
+                args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
+                args[0] = args[0].toLowerCase();
+                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline, trueName), NameHead, null);
+                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline, trueName), PhoneHead, null);
                 nodes.add(NameHead);
                 nline++;
-                System.out.println("processed node " + i + " " + nline);
+//                System.out.println("processed node " + i + " " + nline);
             }
         }
         //outputStream.writeObject(this);
