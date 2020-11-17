@@ -8,22 +8,24 @@ import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+//import AVLTree.Node;
+
 
 public class JsonImport {
-    public static void process(File jsonFile , CSVSearch csv) throws FileNotFoundException {
+    public static void process(File jsonFile , AVLTree csv) throws FileNotFoundException {
         var temp = getJSONObject(jsonFile);
         var test = getDescription(temp);
         String[] description = splitDescription(test);
 
         //test numbers after
-        String[] found = null;
+        AVLTree.Node found = null;
 
         var phones = numbersToBeTest(description);
         boolean result = false;
         for (Long phone : phones) {
             String search = phone.toString();
 //            System.out.println(search);
-            found = csv.searchName(search);
+            found = csv.searchNumber(search);
             if (found != null)
                 break;
         }
@@ -57,11 +59,11 @@ public class JsonImport {
         }
 
         if (found != null){
-            System.out.println("Company found: "+found[0]);
-            System.out.println("Found in: "+found[4]);
-            System.out.println("At line: "+found[5]);
-            System.out.println("Categories: '"+found[1]+"' and '"+found[2]+"'");
-            System.out.println("Phone number: "+found[3]);
+            System.out.println("Company found: "+found.name);
+            System.out.println("Found in: "+found.fileOrigin);
+            System.out.println("At line: "+found.line);
+            System.out.println("Categories: '"+found.sic4 + "' and '"+found.sic8+"'");
+            System.out.println("Phone number: "+found.phone);
         }else{
             System.out.println("No results for: "+jsonFile.getPath());
         }

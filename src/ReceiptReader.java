@@ -10,13 +10,15 @@ public class ReceiptReader {
     /**
      * The AVLTree object containing the sorted data from the csv files.
      */
-    private static CSVSearch csvSearch;
+    private static AVLTree csvSearch;
 
     /**
      * The main driver method of the program.
+     * 
      * @param args the execution arguments passed by the user.
+     * @throws Exception
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         /*
         * If main is called without arguments, display an error and terminate the program.
@@ -96,10 +98,13 @@ public class ReceiptReader {
     }
 
     /**
-     * Deserializes the AVLTree then parses Data given by input folder path provided by user.
+     * Deserializes the AVLTree then parses Data given by input folder path provided
+     * by user.
+     * 
      * @param args the arguments passed to main() by the user.
+     * @throws Exception
      */
-    private static void ParseReceipts (String[] args) {
+    private static void ParseReceipts(String[] args) throws Exception {
 
         //Gets the avl tree file to be deserialized and checks if null
         //avlTree = DeserializeAVLTree();
@@ -126,7 +131,7 @@ public class ReceiptReader {
         String[] filePaths = new String[csvDirList.length];
         for (int i = 0; i<filePaths.length; i++)
             filePaths[i] = csvDirList[i].getAbsolutePath();
-        csvSearch = new CSVSearch(filePaths);
+        csvSearch = new AVLTree(filePaths);
 
         //Create an array of JSON files within the folder and loop through them, parsing each JSON file.
         File[] dirList = jsonFolder.listFiles();
