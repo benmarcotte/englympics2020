@@ -74,7 +74,7 @@ public class AVLTree implements java.io.Serializable {
                 args[0] = args[0].replaceAll("[^a-zA-Z0-9]", "");
                 args[0] = args[0].toLowerCase();
                 insert(new Node(files[i], args[0], args[1], args[2], args[3], nline, trueName), NameHead, null);
-                insert(new Node(files[i], args[0], args[1], args[2], args[3], nline, trueName), PhoneHead, null);
+                insertPhone(new Node(files[i], args[0], args[1], args[2], args[3], nline, trueName), PhoneHead, null);
                 nodes.add(NameHead);
                 nline++;
 //                System.out.println("processed node " + i + " " + nline);
@@ -89,7 +89,7 @@ public class AVLTree implements java.io.Serializable {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.left = n;
-                balance(current, prev);
+                //balance(current, prev);
             } else {
                 insert(n, current.left, current);
             }
@@ -98,7 +98,7 @@ public class AVLTree implements java.io.Serializable {
                 //Node temp = new Node(key, car);
                 //n.prev = current;
                 current.right = n;
-                balance(current, prev);
+                //balance(current, prev);
             } else{
                 insert(n, current.right, current);
             }
@@ -133,6 +133,27 @@ public class AVLTree implements java.io.Serializable {
         //     }
         // }
     }
+    
+        public void insertPhone(Node n, Node current, Node prev){
+        if(n.phone.compareTo(current.phone) < 0){
+            if(current.left == null){
+                //Node temp = new Node(key, car);
+                //n.prev = current;
+                current.left = n;
+                //balance(current, prev);
+            } else {
+                insert(n, current.left, current);
+            }
+        } else {
+            if(current.right == null){
+                //Node temp = new Node(key, car);
+                //n.prev = current;
+                current.right = n;
+                //balance(current, prev);
+            } else{
+                insert(n, current.right, current);
+            }
+        }
 
     public void update(Node n){
         int lh = -1;
@@ -221,7 +242,7 @@ public class AVLTree implements java.io.Serializable {
         Node current = NameHead;
         int compare;
         while(current != null){
-            compare = current.name.compareTo(name);
+            compare = name.compareTo(current.name);
             if(compare == 0){
                 return current;
             }
@@ -240,7 +261,7 @@ public class AVLTree implements java.io.Serializable {
 
         int compare;
         while(current != null){
-            compare = current.phone.compareTo(n);
+            compare = n.compareTo(current.phone);
             if(compare == 0){
                 return current;
             }
@@ -253,5 +274,4 @@ public class AVLTree implements java.io.Serializable {
         }
         return null;
     }
-
 }
